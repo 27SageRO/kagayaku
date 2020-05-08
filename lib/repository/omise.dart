@@ -1,14 +1,24 @@
-import 'package:html/dom.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'repository.dart';
-import 'package:built_collection/built_collection.dart';
 
+/*
+ * Manga source list:
+ * mangadex
+ * mangatown
+ * mangareader
+ * mangafox
+ */
 abstract class Omise {
-  Future<http.Response> getHTTPS(String path);
-  Future<BuiltList<Manga>> getPopularManga({int page});
+  Future<Response> getHTTPS(String path, {String url});
+  Future<List<Manga>> getPopularManga({int page});
+  Future<MangaInfo> getMangaInfo(String id);
+  Future<MangaChapterPages> getMangaChapterPages(String id, {String mangaId});
+  Future<String> getMangaChapterImage(String pageUrl);
 }
 
 abstract class OmiseParser {
-  BuiltList<Manga> parsePopularManga(Document doc);
+  List<Manga> parsePopularManga(Response response, {String id});
+  MangaInfo parseMangaInfo(Response response, {String id});
+  MangaChapterPages parseMangaChapterPages(Response response, {String id});
+  String parseMangaChapterImage(Response response);
 }
-

@@ -12,14 +12,14 @@ void main() {
   Omise omise;
 
   setUpAll(() {
-    omise = MangaDex();
+    omise = MangaTown();
   });
 
-  group('Mangadex test', () {
-    List<Manga> popularManga;
-    MangaInfo mangaInfo;
-    MangaChapterPages mangaChapterPages;
+  List<Manga> popularManga;
+  MangaInfo mangaInfo;
+  MangaChapterPages mangaChapterPages;
 
+  group('Mangatown test', () {
     test('Popular manga', () async {
       popularManga = await omise.getPopularManga(page: 1);
       expect(popularManga.length > 0, true);
@@ -28,7 +28,6 @@ void main() {
 
     test('Manga info', () async {
       mangaInfo = await omise.getMangaInfo(popularManga[0].id);
-      expect(mangaInfo.chapters.length > 0, true);
       print(mangaInfo);
     });
 
