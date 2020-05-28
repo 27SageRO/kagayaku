@@ -10,7 +10,7 @@ class _Config {
 }
 
 class MangaTown extends Omise {
-  final OmiseParser _parser = new _Parser();
+  final OmiseParser _parser = _Parser();
 
   @override
   Future<Response> getHTTPS(String path, {String url}) async {
@@ -58,7 +58,7 @@ class MangaTown extends Omise {
 class _Parser extends OmiseParser {
   @override
   List<Manga> parsePopularManga(Response response, {String id}) {
-    final mangaList = List<Manga>();
+    final mangaList = <Manga>[];
     final doc = parse(response.body);
     final parent = doc.querySelector('ul.manga_pic_list');
     parent.children.forEach((o) {
@@ -95,7 +95,9 @@ class _Parser extends OmiseParser {
 
     final chapterListDoc =
         doc.querySelector('ul.chapter_list').getElementsByTagName('li');
-    List<MangaChapter> chapters = List<MangaChapter>();
+
+    final chapters = <MangaChapter>[];
+
     chapterListDoc.forEach((o) {
       final children = o.children;
       final link = children[0].attributes['href'];

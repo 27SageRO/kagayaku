@@ -14,7 +14,7 @@ class _Config {
 }
 
 class MangaDex extends Omise {
-  final OmiseParser _parser = new _Parser();
+  final OmiseParser _parser = _Parser();
 
   @override
   Future<http.Response> getHTTPS(String path, {String url}) async {
@@ -61,27 +61,24 @@ class MangaDex extends Omise {
 class _Parser extends OmiseParser {
   @override
   List<Manga> parsePopularManga(Response response, {String id}) {
-    final mangaList = List<Manga>();
+    final mangaList = <Manga>[];
     final doc = parse(response.body);
     final entries = doc.querySelectorAll('div.manga-entry');
     entries.forEach((o) {
       // Parse each values
-      final String id = o.attributes['data-id'];
-      final String title = o.getElementsByClassName('manga_title')[0].text;
-      final String imgUrl = _Config.url +
-          o
-              .querySelector('img.rounded')
-              .attributes['src']
-              .replaceAll('.large', '');
+      final id = o.attributes['data-id'];
+      final title = o.getElementsByClassName('manga_title')[0].text;
+      final imgUrl =
+          _Config.url + o.querySelector('img.rounded').attributes['src'];
 
       final ratingElem =
           o.querySelector('ul.list-inline').children[0].children[2];
-      final double score = double.parse(ratingElem.innerHtml);
+      final score = double.parse(ratingElem.innerHtml);
       // Create Manga instance
       mangaList.add(Manga(
         id: id,
         title: title,
-        imgUrl: imgUrl,
+        imgUrl: 'https://www.' + imgUrl,
         score: score,
       ));
     });
@@ -96,14 +93,14 @@ class _Parser extends OmiseParser {
     final mangaJson = decodedJson['manga'];
     final chaptersJson = decodedJson['chapter'];
 
-    final chapters = List<MangaChapter>();
+    final chapters = <MangaChapter>[];
 
     for (String k in chaptersJson.keys) {
       if (chaptersJson[k]['lang_code'] != 'gb') {
         continue;
       }
 
-      final MangaChapter chapter = new MangaChapter(
+      final chapter = MangaChapter(
         id: k,
         chapter: chaptersJson[k]['chapter'],
         title: chaptersJson[k]['title'],
@@ -112,7 +109,7 @@ class _Parser extends OmiseParser {
       chapters.add(chapter);
     }
 
-    MangaInfo mangaInfo = new MangaInfo(
+    return MangaInfo(
       id: id,
       title: mangaJson['title'],
       description: mangaJson['description'],
@@ -120,8 +117,6 @@ class _Parser extends OmiseParser {
       author: mangaJson['author'],
       chapters: chapters,
     );
-
-    return mangaInfo;
   }
 
   @override
@@ -132,7 +127,8 @@ class _Parser extends OmiseParser {
     final server = decodedJson['server'];
     final hash = decodedJson['hash'];
 
-    List<String> pages = List<String>();
+    var pages = <String>[];
+
     for (final page in pagesJson) {
       pages.add('$server$hash/$page');
     }

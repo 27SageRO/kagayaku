@@ -22,7 +22,7 @@ void main() {
   group('Mangatown test', () {
     test('Popular manga', () async {
       popularManga = await omise.getPopularManga(page: 1);
-      expect(popularManga.length > 0, true);
+      expect(popularManga.isNotEmpty, true);
       print(popularManga[0].toString());
     });
 
@@ -33,7 +33,7 @@ void main() {
 
     test('Manga chapter pages', () async {
       mangaChapterPages = await omise.getMangaChapterPages(mangaInfo.chapters[0].id, mangaId: mangaInfo.id);
-      expect(mangaChapterPages.pages.length > 0, true);
+      expect(mangaChapterPages.pages.isNotEmpty, true);
       print(mangaChapterPages);
     });
 

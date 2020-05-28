@@ -22,19 +22,19 @@ void main() {
 
     test('Popular manga', () async {
       popularManga = await omise.getPopularManga(page: 1);
-      expect(popularManga.length > 0, true);
+      expect(popularManga.isNotEmpty, true);
       print(popularManga[0].toString());
     });
 
     test('Manga info', () async {
       mangaInfo = await omise.getMangaInfo(popularManga[0].id);
-      expect(mangaInfo.chapters.length > 0, true);
+      expect(mangaInfo.chapters.isNotEmpty, true);
       print(mangaInfo);
     });
 
     test('Manga chapter pages', () async {
       mangaChapterPages = await omise.getMangaChapterPages(mangaInfo.chapters[0].id, mangaId: mangaInfo.id);
-      expect(mangaChapterPages.pages.length > 0, true);
+      expect(mangaChapterPages.pages.isNotEmpty, true);
       print(mangaChapterPages);
     });
 

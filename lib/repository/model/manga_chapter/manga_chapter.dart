@@ -19,6 +19,7 @@ class MangaChapter extends Equatable {
 
   factory MangaChapter.fromJson(Map<String, dynamic> json) =>
       _$MangaChapterFromJson(json);
+
   Map<String, dynamic> toJson() => _$MangaChapterToJson(this);
 
   @override

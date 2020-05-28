@@ -1,13 +1,6 @@
 import 'package:http/http.dart';
 import 'repository.dart';
 
-/*
- * Manga source list:
- * mangadex
- * mangatown
- * mangareader
- * mangafox
- */
 abstract class Omise {
   Future<Response> getHTTPS(String path, {String url});
   Future<List<Manga>> getPopularManga({int page});
